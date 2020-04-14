@@ -50,7 +50,7 @@ export default {
   ** See https://axios.nuxtjs.org/options
   */
  axios: {
-       baseURL: 'https://orangeroomdigital.com/mnp_dev/public/api'
+       baseURL: 'https://management.webndesign.website/api/'
       // baseURL: 'http://localhost:8000/api/' 
 },
 
