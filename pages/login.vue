@@ -1,53 +1,33 @@
 <template>
-<v-app>
-   <v-snackbar
-      v-model="snackbar"
-      :top="'top'"
-      color="red"
-    >
-      {{msg}}
-      <v-btn      
-        text
-        @click="snackbar = false"
-      >
-        Close
-      </v-btn>
-    </v-snackbar>
-<v-content>
-<v-container
-class="fill-height"
->
-<v-row
-justify="center"
->
-<v-col
-cols="12"
-sm="8"
-md="6"
->
-<v-card class="elevation-12">
-     
-<v-toolbar color="primary"  flat>
-<v-toolbar-title class="white--text">Login form</v-toolbar-title>
-</v-toolbar>
-<v-card-text>
-
-<v-form ref="form" method="post">
-<v-text-field v-model="email" label="E-mail" required></v-text-field>
-<v-text-field v-model="password" type="password" label="Password" required></v-text-field>
-</v-form>
-
-</v-card-text>
-<v-card-actions>
-<v-spacer />
-<v-btn  :loading="loading" color="primary"  @click="login">Login</v-btn>
-</v-card-actions>
-</v-card>
-</v-col>
-</v-row>
-</v-container>
-</v-content>
-</v-app>
+  <v-app id="login" class="primary">
+    <v-content>
+      <v-container fluid fill-height>
+        <v-layout align-center justify-center>
+          <v-flex xs12 sm8 md4 lg4>
+            <v-card class="elevation-1 pa-3">
+              <v-card-text>
+                <div class="layout column align-center">
+                  <img src="logo-connect.png" alt="Vue Material Admin" width="150" height="150">
+                  <h1 class="flex my-2 primary--text">Virtual Office</h1>
+                </div>
+                <v-form>
+                  <v-text-field name="login" label="Login" type="text"
+                                v-model="email"></v-text-field>
+                  <v-text-field name="password" label="Password" id="password" type="password"
+                                v-model="password"></v-text-field>
+                </v-form>
+              </v-card-text>
+              <v-card-actions>
+               
+              
+                <v-btn block color="primary" @click="login" :loading="loading">Login</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-flex>
+        </v-layout>
+      </v-container>
+    </v-content>
+  </v-app>
 </template>
 
 <script>
@@ -99,3 +79,14 @@ catch{
 
 }
 </script>
+<style scoped lang="css">
+  #login {
+    height: 50%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    content: "";
+    z-index: 0;
+  }
+</style>
