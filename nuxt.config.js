@@ -6,7 +6,7 @@ export default {
   ** Headers of the page
   */
   head: {
-    titleTemplate: '%s - ' + process.env.npm_package_name,
+    titleTemplate: '',
     title: process.env.npm_package_name || '',
     meta: [
       { charset: 'utf-8' },
@@ -51,7 +51,7 @@ export default {
   */
  axios: {
        baseURL: 'https://management.webndesign.website/api/'
-      // baseURL: 'http://localhost:8000/api/' 
+          // baseURL: 'http://localhost:8000/api/' 
 },
 
 auth: {

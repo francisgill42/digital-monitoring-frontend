@@ -1,29 +1,9 @@
 <template>
-<v-app>
-   <v-snackbar
-      v-model="snackbar"
-      :top="'top'"
-      color="red"
-    >
-      {{msg}}
-      <v-btn      
-        text
-        @click="snackbar = false"
-      >
-        Close
-      </v-btn>
-    </v-snackbar>
-<v-content>
-<v-container
-class=""
->
+<v-container>
 <v-row
 justify="center"
 >
 <v-col
-cols="12"
-sm="8"
-md="6"
 >
 <v-card class="elevation-12">
      
@@ -39,8 +19,6 @@ Error Page
 </v-col>
 </v-row>
 </v-container>
-</v-content>
-</v-app>
 </template>
 <script>
 export default {

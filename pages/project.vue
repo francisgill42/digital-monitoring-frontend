@@ -61,6 +61,10 @@
                    </v-row>
 
                 <v-row>
+                <v-select v-model="editedItem.user_id" :items="users" item-value="id" item-text="name" label="User"></v-select>
+                </v-row>
+
+                <v-row>
                 <v-select v-model="editedItem.client_id" :items="clients" item-value="id" item-text="client" label="Client"></v-select>
                 </v-row>
 
@@ -146,6 +150,12 @@
           sortable: false,
           value: 'id',
         },
+          {
+          text: 'Resource',
+          align: 'left',
+          sortable: false,
+          value: 'user.name',
+        },
          {
           text: 'Project',
           align: 'left',
@@ -187,6 +197,7 @@
       editedIndex: -1,
       editedItem: {
         name: '',
+        user_id:'',
         client_id: '',
         status_id : '',
         comments : ''
@@ -194,6 +205,7 @@
       },
       defaultItem: {
         name: '',
+        user_id:'',
         client_id: '',
         status_id : '',
         comments : ''
@@ -204,6 +216,7 @@
       },
       records:[],
       statuses:[], 
+      users:[],
       clients:[],
         errors:[
           { name: '' },
@@ -235,6 +248,9 @@
 
      const status = await this.$axios.get('status');
      this.statuses = status.data;
+
+    const user = await this.$axios.get('user');
+     this.users = user.data;
             
     },
 
@@ -275,6 +291,7 @@
           let payload = {
             name: this.editedItem.name,
             client_id: this.editedItem.client_id,
+            user_id: this.editedItem.user_id,
             status_id: this.editedItem.status_id,
             comments: this.editedItem.comments
             };
