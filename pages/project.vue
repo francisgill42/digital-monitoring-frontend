@@ -41,7 +41,11 @@
           inset
           vertical
         ></v-divider>
+
+
        <v-dialog v-model="dialog" max-width="500px">
+
+          
           <template v-slot:activator="{ on }">
             <v-btn color="primary"  class="mb-2" v-on="on">New Item</v-btn>
           </template>
@@ -99,19 +103,16 @@
               <v-btn color="blue darken-1" text @click="save">Save</v-btn>
             </v-card-actions>
           </v-card>
-        </v-dialog>
-      </v-toolbar>
-    </template>
-<!--     
-      <template v-if="item.progress.progress"  v-slot:item.progress.progress="{ item }">
-      <v-progress-linear
-      v-model="item.progress.progress"
-      height="20"
-      >
-      <strong>{{ item.progress.progress }}%</strong>
-      </v-progress-linear>
+        </v-dialog>    
 
-      </template> -->
+      </v-toolbar>
+
+
+    </template>
+    
+      <template v-slot:item.status.name="{ item }">
+        <v-chip :class="status_class(item.status.id)" small>{{item.status.name}}</v-chip>
+      </template>
 
     <template v-slot:item.action="{ item }">
       <v-icon
@@ -230,7 +231,6 @@
       formTitle () {
         return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
       },
-  
     },
 
     watch: {
@@ -249,12 +249,27 @@
      const status = await this.$axios.get('status');
      this.statuses = status.data;
 
-    const user = await this.$axios.get('user');
+     const user = await this.$axios.get('user');
      this.users = user.data;
             
     },
 
     methods: {
+      status_class(val) {
+  
+        if(val == 1){
+          return 'primary'
+        }
+        else if (val == 2){
+          return 'success'
+        }
+        else if(val == 3){
+          return 'grey'
+        }
+        else{
+          return 'red'
+        }
+      },
 
       editItem (item) {
           this.editedIndex = this.records.indexOf(item)
@@ -300,7 +315,9 @@
             this.$axios.put(this.model + '/' + this.editedItem.id, payload)
             .then(res => {
               if(res.data.response_status){ 
-            const index = this.records.findIndex(item => item.id == this.editedItem.id)
+              const index = this.records.findIndex(item => item.id == this.editedItem.id)
+
+              console.log(res.data.updated_record);
            
               this.records.splice(index, 1, res.data.updated_record);
               this.snackbar = res.data.response_status;

@@ -1,5 +1,11 @@
 <template>
   <v-app id="login" class="primary">
+     <v-snackbar v-model="snackbar" :top="'top'">
+      {{msg}}
+      <v-btn text @click="snackbar = false">
+        Close
+      </v-btn>
+    </v-snackbar>
     <v-content>
       <v-container fluid fill-height>
         <v-layout align-center justify-center>
@@ -7,7 +13,7 @@
             <v-card class="elevation-1 pa-3">
               <v-card-text>
                 <div class="layout column align-center">
-                  <img src="logo-connect.png" alt="Vue Material Admin" width="150" height="150">
+                  <!-- <img src="logo-connect.png" alt="Vue Material Admin" width="150" height="150"> -->
                   <h1 class="flex my-2 primary--text">Virtual Office</h1>
                 </div>
                 <v-form>
