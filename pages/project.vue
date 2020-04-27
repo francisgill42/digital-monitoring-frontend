@@ -340,8 +340,8 @@
 
     methods: {
        delay(v){
-        let start = new Date(v.start_date);
-        let end = new Date(v.end_date);
+        let start = new Date(v.end_date);
+        let end = new Date();
         let diff = 0;
         let days = 1000 * 60 * 60 * 24;
 
