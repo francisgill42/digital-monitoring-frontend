@@ -83,6 +83,59 @@
                 <v-row v-if="errors.status_id">
                 <span class="error--text">The status field is required</span>
                 </v-row>
+
+                <v-row>
+                  <v-menu
+                  ref="menu1"
+                  v-model="menu1"
+                  :close-on-content-click="false"
+                  :return-value.sync="date1"
+                  transition="scale-transition"
+                  offset-y
+                  min-width="290px"
+                  >
+                  <template v-slot:activator="{ on }">
+                  <v-text-field
+                  v-model="date1"
+                  label="Start Date"
+                  readonly
+                  v-on="on"
+                  ></v-text-field>
+                  </template>
+                  <v-date-picker v-model="date1" no-title scrollable>
+                  <v-spacer></v-spacer>
+                  <v-btn text color="primary" @click="menu1 = false">Cancel</v-btn>
+                  <v-btn text color="primary" @click="$refs.menu1.save(date1)">OK</v-btn>
+                  </v-date-picker>
+                  </v-menu>
+                </v-row>
+
+                <v-row>
+                  <v-menu
+                  ref="menu2"
+                  v-model="menu2"
+                  :close-on-content-click="false"
+                  :return-value.sync="date2"
+                  transition="scale-transition"
+                  offset-y
+                  min-width="290px"
+                  >
+                  <template v-slot:activator="{ on }">
+                  <v-text-field
+                  v-model="date2"
+                  label="End Date"
+                  readonly
+                  v-on="on"
+                  ></v-text-field>
+                  </template>
+                  <v-date-picker v-model="date2" no-title scrollable>
+                  <v-spacer></v-spacer>
+                  <v-btn text color="primary" @click="menu2 = false">Cancel</v-btn>
+                  <v-btn text color="primary" @click="$refs.menu2.save(date2)">OK</v-btn>
+                  </v-date-picker>
+                  </v-menu>
+                </v-row>
+
                 
                 <v-row>
                 <v-textarea
@@ -114,6 +167,11 @@
         <v-chip :class="status_class(item.status.id)" small>{{item.status.name}}</v-chip>
       </template>
 
+      <template v-slot:item.delay="{ item }">
+         <v-chip color="red white--text" v-text="delay(item)" small></v-chip>
+       
+        </template>
+
     <template v-slot:item.action="{ item }">
       <v-icon
         small
@@ -140,6 +198,13 @@
   
 
     data: () => ({
+
+      date1 : '',
+      menu1: false,
+
+      date2 : '',
+      menu2: false,     
+
       model : 'project',
       search:'',
       snackbar:false,
@@ -180,6 +245,24 @@
           align: 'left',
           sortable: false,
           value: 'status.name',
+        },
+          {
+          text: 'Start Date',
+          align: 'left',
+          sortable: false,
+          value: 'start_date',
+        },
+          {
+          text: 'End Date',
+          align: 'left',
+          sortable: false,
+          value: 'end_date',
+        },
+         {
+          text: 'Delay',
+          align: 'left',
+          sortable: false,
+          value: 'delay',
         },
          {
           text: 'Comments',
@@ -231,6 +314,7 @@
       formTitle () {
         return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
       },
+     
     },
 
     watch: {
@@ -255,6 +339,15 @@
     },
 
     methods: {
+       delay(v){
+        let start = new Date(v.start_date);
+        let end = new Date(v.end_date);
+        let diff = 0;
+        let days = 1000 * 60 * 60 * 24;
+
+        diff = end - start;
+        return Math.floor(diff / days);
+      },
       status_class(val) {
   
         if(val == 1){
@@ -308,16 +401,18 @@
             client_id: this.editedItem.client_id,
             user_id: this.editedItem.user_id,
             status_id: this.editedItem.status_id,
-            comments: this.editedItem.comments
+            comments: this.editedItem.comments,
+            start_date : this.date1,
+            end_date : this.date2,
             };
+
+
            if (this.editedIndex > -1) {
 
             this.$axios.put(this.model + '/' + this.editedItem.id, payload)
             .then(res => {
               if(res.data.response_status){ 
               const index = this.records.findIndex(item => item.id == this.editedItem.id)
-
-              console.log(res.data.updated_record);
            
               this.records.splice(index, 1, res.data.updated_record);
               this.snackbar = res.data.response_status;
