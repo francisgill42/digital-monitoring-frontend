@@ -24,10 +24,8 @@
 </template>
 
 <script>
-import Progress from '~/components/Progress.vue'
 
 export default {
-  components: { Progress },
    data: () => ({
       progress:[],
     }),
