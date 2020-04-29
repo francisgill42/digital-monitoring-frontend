@@ -12,7 +12,8 @@
     <v-progress-linear
     v-model="elem.progress.progress"
     height="20"
-    color="primary"
+    :color="change_color(elem.progress.progress)"
+
     >
     <strong>{{ elem.progress.progress }}%</strong>
     </v-progress-linear>
@@ -35,5 +36,26 @@ export default {
     this.progress = progress.data;
 
 },
+methods:{
+        change_color(val) {
+  
+        if(val >=  0 && val <= 20){
+        return 'red'
+        }
+        else if (val > 20 && val <= 40){
+        return 'grey'
+        }
+        else if(val > 40 && val < 60){
+        return 'info'
+        }        else if(val > 0 && val < 80){
+        return 'primary'
+        }
+        else{
+        return 'green'
+        }
+
+      },
+
+}
 }
 </script>

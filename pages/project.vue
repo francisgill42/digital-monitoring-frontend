@@ -143,9 +143,6 @@
                 label="Default style"  
                 ></v-textarea>
                 </v-row>
-
-                
-
                     
               </v-container>
             </v-card-text>
@@ -162,6 +159,19 @@
 
 
     </template>
+
+     <template v-slot:item.progress.progress="{item}">
+       <v-slider
+          @change="add_progress(item)"
+          class="mt-10"
+          step="5"
+          :color="change_color(item.progress.progress)"
+          :track-color="change_color(item.progress.progress)"
+          v-model="item.progress.progress"
+          :thumb-size="24"
+          thumb-label="always"
+        ></v-slider>
+      </template>
     
       <template v-slot:item.status.name="{ item }">
         <v-chip :class="status_class(item.status.id)" small>{{item.status.name}}</v-chip>
@@ -339,6 +349,27 @@
     },
 
     methods: {
+      add_progress (item) {
+
+        let payload = {
+            progress: item.progress.progress,
+            project_id: item.id 
+        }
+            this.$axios.post('progress', payload)
+              .then((res) => {
+
+              if(res.data.response_status){ 
+           
+                this.snackbar = res.data.response_status;
+                this.response.msg = res.data.message;
+           
+              }
+              else{
+                this.errors = res.data
+              }
+
+            });
+      },
        delay(v){
         let start = new Date(v.end_date);
         let end = new Date();
@@ -363,6 +394,26 @@
           return 'red'
         }
       },
+
+      change_color(val) {
+  
+        if(val >=  0 && val <= 20){
+        return 'red'
+        }
+        else if (val > 20 && val <= 40){
+        return 'grey'
+        }
+        else if(val > 40 && val < 60){
+        return 'info'
+        }        else if(val > 0 && val < 80){
+        return 'primary'
+        }
+        else{
+        return 'green'
+        }
+
+      },
+
 
       editItem (item) {
           this.editedIndex = this.records.indexOf(item)
@@ -393,6 +444,10 @@
           this.editedItem = Object.assign({}, this.defaultItem)
           this.editedIndex = -1
         }, 300)
+      },
+
+      save_progress () {
+        alert();
       },
 
       save () {

@@ -78,12 +78,13 @@
     </template>
 
       <template  v-slot:item.progress="{ item }">
-            <v-progress-linear
-    v-model="item.progress"
-    height="20"
-    >
+          <v-progress-linear
+          v-model="item.progress"
+          :color="change_color(item.progress)"
+          height="20"
+          >
           <strong>{{ item.progress }}%</strong>
-    </v-progress-linear>
+          </v-progress-linear>
 
       </template>
 
@@ -199,6 +200,26 @@
     },
 
     methods: {
+
+        change_color(val) {
+
+        if(val >=  0 && val <= 20){
+        return 'red'
+        }
+        else if (val > 20 && val <= 40){
+        return 'grey'
+        }
+        else if(val > 40 && val < 60){
+        return 'info'
+        }        else if(val > 0 && val < 80){
+        return 'primary'
+        }
+        else{
+        return 'green'
+        }
+
+        },
+
 
       editItem (item) {
           this.editedIndex = this.records.indexOf(item)
